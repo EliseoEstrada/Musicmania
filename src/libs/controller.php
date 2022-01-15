@@ -9,7 +9,7 @@ class Controller{
 
     function loadModel($model){
         
-        $clasModel =  $model . 'Model';
+        $clasModel = $model . 'Model';
         $file = 'src/models/'. $clasModel . '.php';
 
         if(file_exists($file)){

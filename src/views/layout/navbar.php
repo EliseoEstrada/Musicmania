@@ -7,7 +7,7 @@
     $image = isset($_SESSION['identity']) ? $_SESSION['identity']['image'] : null;
     $rol =   isset($_SESSION['identity']) ? $_SESSION['identity']['rol'] : null;
     if(!$image != null){
-        $image = image_resource . 'user_layout.png';
+        $image = path_resources_images . 'user_layout.png';
     }
 ?>
 
@@ -19,7 +19,7 @@
         </button>
         <!--Titulo-->
         <a class="navbar-brand" href="<?=URL?>">
-            <img class="logo_nav" src="<?=image_resource?>Logotipo.png"" alt="logo">
+            <img class="logo_nav" src="<?=path_resources_images?>Logotipo.png"" alt="logo">
         </a>
         
         <form method="POST" action="<?=URL?>producto/filtro" class="form-inline w-25 pr-2 d-none d-md-block"  >
@@ -124,3 +124,5 @@
         </div>
     </div>
 </nav>
+
+<div class="main">

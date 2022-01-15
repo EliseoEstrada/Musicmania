@@ -12,7 +12,7 @@ CREATE TABLE products(
     title VARCHAR(100),
     description TEXT,
     price FLOAT,
-    amount INT,
+    quantity INT,
     rating FLOAT,
     image VARCHAR(100),
     extension VARCHAR(20),
@@ -24,10 +24,28 @@ CREATE TABLE products(
 CREATE TABLE users(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) UNIQUE,
-    email VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
     password VARCHAR(50),
+    address TEXT,
     rol TINYINT,
     image VARCHAR(100),
     extension VARCHAR(20)
 );
 
+CREATE TABLE orders(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    create_at DATETIME,
+    address TEXT,
+    total FLOAT,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE order_items(
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    subtotal FLOAT,
+    CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(id),
+    CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id)
+);

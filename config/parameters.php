@@ -3,13 +3,13 @@
 define('ROOT', dirname(dirname(__FILE__)));
 
 define('URL', 'http://localhost/Musicmania/');
-define('controller_default', 'ProductController');
-define('action_default', 'getAll');
+define('default_controller', 'ProductController');
+define('default_action', 'getAll');
 
 define('lib_message', URL.'src/views/layout/alert.php');
 
-define('image_resource', URL.'public/images/static/');
-define('path_image_product', 'public/images/uploads/products/');
+define('path_resources_images', URL.'public/images/static/');
+define('path_product_images', URL.'public/images/uploads/products/');
 
 
 define('HOST', 'localhost');

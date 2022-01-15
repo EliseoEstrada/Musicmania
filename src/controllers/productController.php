@@ -17,64 +17,59 @@ class ProductController extends Controller{
     }
 
     function index(){
-        $this->render('product/index');
+        $this->getAll();
     }
 
     function getAll(){
         
-        $movies = null;
-        //$movies = $this->model->getAll();
-        $this->view->movies = $movies;
+        $products = $this->model->getAll();
+        $this->view->products = $products;
         $this->render('product/index');
     }
 
     function add(){
-        //isset($_SESSION['identity']) && $_SESSION['identity'] != null
-        if(true){
+        if(isset($_POST) and $_POST != null){
+            $title          = $_POST['title'] ? $_POST['title'] : null;
+            $description    = $_POST['description'] ? $_POST['description'] : null;
+            $quantity       = $_POST['quantity'] ? $_POST['quantity'] : null;
+            $price          = $_POST['price'] ? $_POST['price'] : null;
+            $category       = $_POST['category'] ? $_POST['category'] : null;
 
-            if(isset($_POST) and $_POST != null){
-                $title =        $_POST['title'] ? $_POST['title'] : null;
-                $description =  $_POST['description'] ? $_POST['description'] : null;
-                $amount =       $_POST['amount'] ? $_POST['amount'] : null;
-                $price =        $_POST['price'] ? $_POST['price'] : null;
-                $category =     $_POST['category'] ? $_POST['category'] : null;
+            $image_name         = $_FILES["image"]["name"];
+            $image_extension    = $_FILES['image']['type'];
+            $image_tmp          = $_FILES['image']['tmp_name'];
+            $image_route = ROOT .'/'. path_image_product . $image_name;
 
-                $image_name =       $_FILES["image"]["name"];
-                $image_extension =  $_FILES['image']['type'];
-                $image_tmp =        $_FILES['image']['tmp_name'];
-                $image_route = ROOT .'/'. path_image_product . $image_name;
+            $data = array(
+                'title'             => $title,
+                'description'       => $description,
+                'price'             => $price,
+                'quantity'            => $quantity,
+                'category'          => $category,
+                'image_name'        => $image_name,
+                'image_extension'   => $image_extension
+            );
 
-                $data = array(
-                    'title'             => $title,
-                    'description'       => $description,
-                    'price'             => $price,
-                    'amount'            => $amount,
-                    'category'          => $category,
-                    'image_name'        => $image_name,
-                    'image_extension'   => $image_extension
-                );
+            if (move_uploaded_file($image_tmp, $image_route) ){
 
-                if (move_uploaded_file($image_tmp, $image_route) ){
-                    $result = $this->model->insert($data);
+                $result = $this->model->insert($data);
 
-                    if($result === true){
+                if($result === true){
 
-                        $this->view->addMessage('success', 'Producto agregado con exito');
+                    $this->view->addMessage('success', 'Producto agregado con exito');
 
-                    }else{
-                        $this->view->addMessage('error', $result);
-                        $this->view->data = $data;
-                    }
                 }else{
-                    $this->view->addMessage('error', 'No se pudo subir imagen al servidor');
+                    unlink( $image_route);
+
+                    $this->view->addMessage('error', $result);
                     $this->view->data = $data;
                 }
+            }else{
+                $this->view->addMessage('error', 'No se pudo subir imagen al servidor');
+                $this->view->data = $data;
             }
-            
-            $this->render('product/add');
-
-        }else{
-            $this->view->redirect('product/index');
         }
+        
+        $this->render('product/add');
     }
 }

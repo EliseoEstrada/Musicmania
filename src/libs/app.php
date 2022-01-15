@@ -7,8 +7,7 @@ class App{
 
     function __construct(){
         require_once 'src/views/layout/header.php'; // layout header vista
-        //require_once 'src/views/layout/auxNav.php'; // layout navbar vista
-        
+
         $classController = "";
         $action = "";
 
@@ -16,19 +15,21 @@ class App{
         if(isset($_GET['controller'])){
             //Sí existe el controlador haga:
             $classController = $_GET['controller'].'Controller';
-        }elseif(!isset ($_GET['controller']) && !isset ($_GET['action'])){
+        }elseif(!isset($_GET['controller']) && !isset($_GET['action'])){
             //Sí no existe el controlador y la acción, debe cargar el controlador default
             // configurado en el .htaccess 
-            $classController = controller_default;
+            $classController = default_controller;
         }else{
             // Sino existe el error, llame la función de errores
             $this->show_error();
             exit();
         }
 
+
         //ACCION
         // comprobando que el controlador exista
         //print_r($classController);
+
         if(isset($classController) && class_exists($classController)){
 
             //Creo un nuevo objeto de la clase controladora
@@ -40,8 +41,8 @@ class App{
             }elseif(!isset ($_GET['controller']) && !isset ($_GET['action'])){
             //Sí no existe el controlador y la acción, debe cargar el controlador default
             // configurado en el .htaccess 
-                $action_default = action_default;
-                $controller->$action_default();
+                $default_action = default_action;
+                $controller->$default_action();
             }else{
                 $this->show_error();
             }
@@ -57,6 +58,6 @@ class App{
     //Funciones para cargar controlador de errores
     function show_error(){
         $error = new ErrorController();
-        //$error->index();
+        $error->index();
     }
 }

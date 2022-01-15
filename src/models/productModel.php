@@ -19,11 +19,11 @@ class ProductModel extends Model{
         $result;
 
         try{
-            $sql = 'CALL sp_addProduct(
+            $sql = 'CALL sp_add_product(
                 :title, 
                 :description, 
                 :price, 
-                :amount, 
+                :quantity, 
                 :category, 
                 :image_name, 
                 :image_extension)';
@@ -46,14 +46,12 @@ class ProductModel extends Model{
         $items = [];
 
         try{
-            $query = $this->db->connect()->query('SELECT * FROM peliculas');
+            $connection = $this->db->connect();
+            $query = $connection->query('SELECT * FROM products');
 
             if($query->rowCount() > 0){
                 while($row = $query->fetch()){
-                    $item = new Movie();
-                    $item->id      = $row['id'];
-                    $item->title   = $row['titulo'];
-                    $item->image   = $row['imagen'];
+                    $item = $row;
     
                     array_push($items, $item);
                 }

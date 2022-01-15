@@ -15,7 +15,7 @@
     <!--ICONOS-->
     <script src="https://kit.fontawesome.com/876d87027b.js" crossorigin="anonymous"></script>
     
-    <link rel="shortcut icon" href="<?=image_resource?>Isotipo.ico">
+    <link rel="shortcut icon" href="<?=path_resources_images?>Isotipo.ico">
     <!--CSS-->
     <link href="<?=URL?>public/css/main.css" rel="stylesheet" type="text/css">
 

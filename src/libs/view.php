@@ -22,6 +22,10 @@ class View{
 
         $this->message = $message;
     }
+
+    function error(){
+        $this->redirect('error/index');
+    }
 }
 
 ?>

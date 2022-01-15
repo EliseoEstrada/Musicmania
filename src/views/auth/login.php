@@ -3,7 +3,7 @@
 
         <form action="<?=URL?>user/login" method="POST" id="login"class=" bg-white p-3 my-auto my-auto border rounded">
             
-            <h2 class="text-center ">Iniciar sesión</h2>
+            <h2 class="text-center mb-4">Bienvenido</h2>
 
             <?php 
             if(isset($this->message) && $this->message != null){ 
@@ -30,17 +30,15 @@
             ?>
 
             <div class="mb-3">
-                <label for="email" class="form-label ">Correo</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-user mr-1" ></i></span>
-                    <input type="email" name="email" class="form-control" id="email" value="<?=$email?>" placeholder="Correo" required>
+                    <input type="email" name="email" class="form-control"  value="<?=$email?>" placeholder="Correo" required>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label ">Contraseña</label>
                 <div class="input-group">
                     <span class="input-group-text"> <i class="fas fa-lock"></i></span>
-                    <input type="password" name="password" class="form-control" id="password" value="<?=$pass?>" placeholder="Contraseña" required>
+                    <input type="password" name="password" class="form-control"  value="<?=$pass?>" placeholder="Contraseña" required>
                 </div>
                 
             </div>
