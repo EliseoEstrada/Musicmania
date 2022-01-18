@@ -54,3 +54,81 @@ BEGIN
 
 END $%
 DELIMITER ;
+
+
+# get_all_products
+DELIMITER $%
+CREATE PROCEDURE sp_get_all_products ()
+BEGIN
+
+    SELECT 
+    P.id,
+    P.title, 
+    P.description, 
+    P.price, 
+    P.quantity, 
+    P.rating, 
+    P.image, 
+    P.extension, 
+    P.create_at, 
+    C.name 'category'
+    FROM products P
+    INNER JOIN categories C
+    ON C.id = P.category_id;
+
+END $%
+DELIMITER ;
+
+
+# get_products_by_category
+DELIMITER $%
+CREATE PROCEDURE sp_get_products_by_category( 
+    IN p_category VARCHAR(100)
+)
+BEGIN
+
+    SELECT 
+    P.id,
+    P.title, 
+    P.description, 
+    P.price, 
+    P.quantity, 
+    P.rating, 
+    P.image, 
+    P.extension, 
+    P.create_at, 
+    C.name 'category'
+    FROM products P
+    INNER JOIN categories C
+    ON C.id = P.category_id
+    WHERE C.name = p_category;
+
+END $%
+DELIMITER ;
+
+
+# get_one_product
+DELIMITER $%
+CREATE PROCEDURE sp_get_one_product( 
+    IN p_id INT
+)
+BEGIN
+
+    SELECT 
+    P.id,
+    P.title, 
+    P.description, 
+    P.price, 
+    P.quantity, 
+    P.rating, 
+    P.image, 
+    P.extension, 
+    P.create_at, 
+    C.name 'category'
+    FROM products P
+    INNER JOIN categories C
+    ON C.id = P.category_id
+    WHERE P.id = p_id;
+
+END $%
+DELIMITER ;

@@ -27,6 +27,35 @@ class ProductController extends Controller{
         $this->render('product/index');
     }
 
+    function byCategory(){
+        $products = $this->model->getAll();
+        $this->view->products = $products;
+        $this->render('product/index');
+    }
+
+    function details(){
+        if(isset($_GET) and $_GET != null){
+            $id = $_GET['id'] ? $_GET['id'] : null;
+
+            if($id != null){
+                $product = $this->model->getOne($id);
+
+                if($product != null){
+                    $this->view->product = $product;
+                    $this->render('product/details'); 
+                }
+
+                
+            }else{
+                $this->view->error();
+            }
+
+        }else{
+            $this->view->error();
+        }
+        
+    }
+
     function add(){
         if(isset($_POST) and $_POST != null){
             $title          = $_POST['title'] ? $_POST['title'] : null;
@@ -38,7 +67,7 @@ class ProductController extends Controller{
             $image_name         = $_FILES["image"]["name"];
             $image_extension    = $_FILES['image']['type'];
             $image_tmp          = $_FILES['image']['tmp_name'];
-            $image_route = ROOT .'/'. path_image_product . $image_name;
+            $image_route = ROOT .'/'. path_product_images . $image_name;
 
             $data = array(
                 'title'             => $title,
@@ -72,4 +101,47 @@ class ProductController extends Controller{
         
         $this->render('product/add');
     }
+
+    function addToCart(){
+        //unset($_SESSION['cart']);
+        if(isset($_POST['product_id'], $_POST['quantity'])){
+
+            $product_id = (int)$_POST['product_id'];
+            $quantity = (int)$_POST['quantity'];
+
+            if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+                if (array_key_exists($product_id, $_SESSION['cart'])) {
+                    // Product exists in cart so just update the quanity
+                    $_SESSION['cart'][$product_id] += $quantity;
+                } else {
+                    // Product is not in cart so add it
+                    $_SESSION['cart'][$product_id] = $quantity;
+                }
+            } else {
+                // There are no products in cart, this will add the first product to cart
+                $_SESSION['cart'] = array($product_id => $quantity);
+            }
+
+            $this->view->redirect('user/cart');
+
+        }
+    }
+
+    function getProductsInCart(){
+        $items = $this->model->getProductsInCart();
+        return $items;
+    }
+
+    function removeProductToCart(){
+        if(isset($_GET['product_id'])){
+            $product_id = (int)$_GET['product_id'];
+            unset($_SESSION['cart'][$product_id]);
+
+            $this->view->redirect('user/cart');
+        }
+
+    }
+
 }
+
+//https://codeshack.io/shopping-cart-system-php-mysql/

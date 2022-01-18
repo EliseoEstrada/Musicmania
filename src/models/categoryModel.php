@@ -12,7 +12,7 @@ class CategoryModel extends Model{
         $items = [];
 
         try{
-            $query = $this->db->connect()->query('SELECT * FROM categories');
+            $query = $this->db->connect()->query('SELECT * FROM categories ORDER BY name');
 
             if($query->rowCount() > 0){
                 while($row = $query->fetch()){

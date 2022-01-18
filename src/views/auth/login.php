@@ -25,14 +25,14 @@
             ?>
 
             <?php
-            $email = isset($this->data)? $this->data['email'] : null;
+            $user = isset($this->data)? $this->data['user'] : null;
             $pass = isset($this->data)? $this->data['password'] : null;
             ?>
 
             <div class="mb-3">
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-user mr-1" ></i></span>
-                    <input type="email" name="email" class="form-control"  value="<?=$email?>" placeholder="Correo" required>
+                    <input type="text" name="user" class="form-control"  value="<?=$user?>" placeholder="Usuario o Correo" required>
                 </div>
             </div>
             <div class="mb-3">

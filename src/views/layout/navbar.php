@@ -19,7 +19,7 @@
         </button>
         <!--Titulo-->
         <a class="navbar-brand" href="<?=URL?>">
-            <img class="logo_nav" src="<?=path_resources_images?>Logotipo.png"" alt="logo">
+            <img class="logo_nav" src="<?=path_resources_images?>Logotipo.png" alt="logo">
         </a>
         
         <form method="POST" action="<?=URL?>producto/filtro" class="form-inline w-25 pr-2 d-none d-md-block"  >
@@ -36,6 +36,9 @@
         <div class="my-auto d-none d-md-block">
             <a class="btn  btn-outline-danger text-white my-auto " href="<?=URL?>user/login"  >Iniciar sesión</a>
             <a class="btn btn-outline-secondary text-white my-auto " href="<?=URL?>user/signup"  >Registrarse</a>
+            <a class="btn btn-danger " href="<?=URL?>user/cart">
+                <i class="fa fa-shopping-cart " aria-hidden="true"></i>
+            </a>
         </div>
         <!--Profile button-->
         <button class="btn btn btn-outline-secondary btn-lg me-3 d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile" aria-controls="offcanvasProfile">
@@ -53,7 +56,7 @@
         <div class="w-100 d-md-block d-none ">
             <ol class="navbar-nav small box_categories">
                 <?php foreach($categories as $category): ?>
-                <li class="nav-item "><a href="" class="nav-link py-1 "><?=$category['name']?></a></li>
+                <li class="nav-item "><a href="<?=URL?>product/filter&category=<?=$category['name']?>" class="nav-link py-1 "><?=$category['name']?></a></li>
                 <?php endforeach; ?>
             </ol>
         </div>
@@ -74,7 +77,7 @@
                 <h4 class="offcanvas-title text-white mt-5">Categorias</h4>
                 <ol class="navbar-nav justify-content-end flex-grow-1 p-3">
                     <?php foreach($categories as $category): ?>
-                    <li class="nav-item "><a href="" class="nav-link py-2"><?=$category['name']?></a></li>
+                    <li class="nav-item "><a href="<?=URL?>product/byCategory&category=<?=$category['id']?>" class="nav-link py-2"><?=$category['name']?></a></li>
                     <?php endforeach; ?>
                 </ol>
             </div>
@@ -110,7 +113,7 @@
                         <a class="nav-link "href="#"><i class="fa fa-user mr-1" ></i> Mi Perfil</a>
                     </li>
                     <li class="">
-                        <a class="nav-link" href="#"><i class="fa fa-shopping-cart " ></i> Mi carrito  </a>
+                        <a class="nav-link" href="<?=URL?>user/cart"><i class="fa fa-shopping-cart " ></i> Mi carro  </a>
                     </li>
                     <?php endif; ?>
                 </ul>

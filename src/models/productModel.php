@@ -47,7 +47,7 @@ class ProductModel extends Model{
 
         try{
             $connection = $this->db->connect();
-            $query = $connection->query('SELECT * FROM products');
+            $query = $connection->query('CALL sp_get_all_products()');
 
             if($query->rowCount() > 0){
                 while($row = $query->fetch()){
@@ -65,24 +65,59 @@ class ProductModel extends Model{
     }
 
     public function getOne($id){
-        $item = new Movie();
-        $sql = 'SELECT * FROM peliculas WHERE id= :id';
-        $query = $this->db->connect()->prepare($sql);
-        $query->execute(array('id' => $id));
-        
 
-        if($query->rowCount() == 1){
-            $row = $query->fetch();
-            $item->id      = $row['id'];
-            $item->title   = $row['titulo'];
-            $item->image   = $row['imagen'];
+        $item = null;
 
+        try{
+            $sql = 'CALL sp_get_one_product(:id)';
+            $connection = $this->db->connect();
+            $query = $connection->prepare($sql);
+            $query->execute(array( 'id' => $id ));
+
+            if($query->rowCount() > 0){
+                $item = $query->fetch();
+            }
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+
+        return $item;
+
+    }
+
+    public function getProductsInCart(){
+        $items = [];
+
+        $products_in_cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
+
+
+        if(count($products_in_cart) > 0){
+
+            $array_to_question_marks = implode(',', array_fill(0, count($products_in_cart), '?'));
+            
+            try{
+
+                $connection = $this->db->connect();
+                $sql = 'SELECT * FROM products WHERE id IN (' . $array_to_question_marks . ')';
+                $query = $connection->prepare($sql);
+                $query->execute(array_keys($products_in_cart));
+
+                if($query->rowCount() > 0){
+                    while($row = $query->fetch()){
+                        $item = $row;
+                        array_push($items, $item);
+                    }
+                }
+    
+            }catch(PDOException $e){
+                echo $e;
+            }
         }
 
         
 
-        return $item;
-
+        return $items;
     }
 
 }

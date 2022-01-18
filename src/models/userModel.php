@@ -59,7 +59,7 @@ class UserModel extends Model{
         $result;
 
         try{
-            $sql = 'SELECT * FROM users WHERE email = :email AND password = :password';
+            $sql = 'CALL sp_login(:user, :password)';
             $connection = $this->db->connect();
             $query = $connection->prepare($sql);
             $query->execute($data);

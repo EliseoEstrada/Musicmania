@@ -45,8 +45,8 @@ class UserController extends Controller{
     function login(){
         if(isset($_POST['submit'])){
             $data = array(
-                'email'         => $_POST['email'], 
-                'password'      => $_POST['password']
+                'user'       => $_POST['user'], 
+                'password'   => $_POST['password']
             );
 
             $result = $this->model->login($data);
@@ -72,6 +72,24 @@ class UserController extends Controller{
             //echo '<script>window.location.replace("'.URL.'product/index.php");</script>';
             //$this->render('product/index');
         }
+    }
+
+    function cart(){
+        $productController = new ProductController();
+
+        $items =[];
+        $products_in_cart = 0;
+
+        if(isset($_SESSION['cart'])){
+            $items = $productController->getProductsInCart();
+            $products_in_cart = count($_SESSION['cart']);
+        }
+
+        $this->view->products = $items;
+        $this->view->products_in_cart = $products_in_cart;
+        
+
+        $this->render('user/cart');
     }
 
 }
