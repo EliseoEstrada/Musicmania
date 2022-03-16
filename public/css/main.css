@@ -8,6 +8,11 @@ body{
     background-attachment: fixed;
 }
 
+:root{
+    --primary-color: #dc3545;
+}
+
+
 textarea{
     resize: none;
 }
@@ -38,6 +43,12 @@ a.product_link, a.product_link:hover{
 }
 
 
+/*PROFILE*/
+
+.old_image_user{
+    max-width: 200px;
+    max-height: 200px;
+}
 
 
 /*Boostrap*/
@@ -47,4 +58,13 @@ a.product_link, a.product_link:hover{
 
 .container-xxl{
     padding: 0;
+}
+
+.list-group-item.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.dropdown-item:active{
+    background-color: var(--primary-color);
 }

@@ -5,7 +5,6 @@
     $email = isset($_SESSION['identity']) ? $_SESSION['identity']['email'] : null;
     $user =  isset($_SESSION['identity']) ? $_SESSION['identity']['username'] : null;
     $image = isset($_SESSION['identity']) ? $_SESSION['identity']['image'] : null;
-    $rol =   isset($_SESSION['identity']) ? $_SESSION['identity']['rol'] : null;
     if(!$image != null){
         $image = path_resources_images . 'user_layout.png';
     }
@@ -13,7 +12,7 @@
 
 <nav class="navbar navbar-dark bg-dark ">
     <div class="container-fluid">
-        <!--Button categories-->
+        <!--Boton izquierdo-->
         <button class="navbar-toggler d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar1" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -21,10 +20,10 @@
         <a class="navbar-brand" href="<?=URL?>">
             <img class="logo_nav" src="<?=path_resources_images?>Logotipo.png" alt="logo">
         </a>
-        
-        <form method="POST" action="<?=URL?>producto/filtro" class="form-inline w-25 pr-2 d-none d-md-block"  >
+        <!--Formulario de busqueda-->
+        <form method="POST" action="<?=URL?>product/search" class="form-inline w-25 pr-2 d-none d-md-block"  >
             <div class="input-group ">
-                <input type="text" class="form-control border-dark" name="buscar" id="buscar" placeholder="¿Que estas buscando?" autocomplete="off">
+                <input type="text" class="form-control border-dark" name="search" placeholder="¿Que estas buscando?" autocomplete="off">
                 <div class="input-group-append">
                     <button class="btn btn-outline-danger" type="submit" ><i class="fa fa-search"></i></button>
                 </div>
@@ -32,7 +31,7 @@
         </form>
 
         <?php if(!isset($_SESSION['identity'])):?>            
-        <!--login/signup buttons-->
+        <!--botones login/signup-->
         <div class="my-auto d-none d-md-block">
             <a class="btn  btn-outline-danger text-white my-auto " href="<?=URL?>user/login"  >Iniciar sesión</a>
             <a class="btn btn-outline-secondary text-white my-auto " href="<?=URL?>user/signup"  >Registrarse</a>
@@ -40,34 +39,59 @@
                 <i class="fa fa-shopping-cart " aria-hidden="true"></i>
             </a>
         </div>
-        <!--Profile button-->
+        <!--Boton derecho-->
         <button class="btn btn btn-outline-secondary btn-lg me-3 d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile" aria-controls="offcanvasProfile">
             <span class="text-white "><i class="fa fa-user" ></i></span>
         </button>
         <?php else: ?>
-        <!--Profile button-->
-        <button class="btn btn btn-outline-danger btn-lg me-3 text-white " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile" aria-controls="offcanvasProfile">
+        <!--
+        <button class="btn btn btn-outline btn-lg me-3 text-white " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile" aria-controls="offcanvasProfile">
             <span class="d-block d-md-none"><i class="fa fa-user" ></i> </span>
             <p class="d-none d-md-block m-0"><i class="fa fa-user" ></i> <?=$user?></p>
         </button>
+        -->
+
+        <!--Boton de perfil-->
+        <div class="d-block d-md-none">
+            <button class="btn btn btn-outline btn-lg me-3 text-white " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile" aria-controls="offcanvasProfile">
+                <span class="d-block d-md-none"><i class="fa fa-user" ></i> </span>
+                <p class="d-none d-md-block m-0"><i class="fa fa-user" ></i> <?=$user?></p>
+            </button>
+        </div>
+        <div class="d-md-block d-none">
+            <div class="dropdown ">
+                <button class="btn btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-user" ></i> <?=$user?>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" style="min-width: 0;">
+                    <li><a class="dropdown-item " href="<?=URL?>user/profile"><i class="fa fa-user" ></i> Perfil</a></li>
+                    <li><a class="dropdown-item " href="<?=URL?>user/cart"><i class="fa fa-user" ></i> Mi carro</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item " href="<?=URL?>user/logout"><i class="fa fa-user" ></i> Cerrar sesion</a></li>
+                </ul>
+            </div>
+        </div>
         <?php endif;?>
 
-
+        <!--Categorias-->
         <div class="w-100 d-md-block d-none ">
             <ol class="navbar-nav small box_categories">
                 <?php foreach($categories as $category): ?>
-                <li class="nav-item "><a href="<?=URL?>product/filter&category=<?=$category['name']?>" class="nav-link py-1 "><?=$category['name']?></a></li>
+                <li class="nav-item "><a href="<?=URL?>product/byCategory&category=<?=$category['name']?>" class="nav-link py-1 "><?=$category['name']?></a></li>
                 <?php endforeach; ?>
             </ol>
         </div>
+
+
+        <!-- CANVAS modo responsivo -->
 
          <!--Canvas Categorias-->
         <div class="offcanvas offcanvas-start bg-dark" tabindex="-1" id="offcanvasNavbar1" aria-labelledby="offcanvasNavbarLabel1">
             <div class="offcanvas-body">
             
-                <form method="POST" action="<?=URL?>producto/filtro" class="form-inline mt-3"  >
+                <form method="POST" action="<?=URL?>product/search" class="form-inline mt-3"  >
                     <div class="input-group w-100">
-                        <input type="text" class="form-control border-dark" name="buscar" id="buscar" placeholder="¿Que estas buscando?" autocomplete="off">
+                        <input type="text" class="form-control border-dark" name="search" placeholder="¿Que estas buscando?" autocomplete="off">
                         <div class="input-group-append">
                             <button class="btn btn-outline-danger" type="submit" ><i class="fa fa-search"></i></button>
                         </div>
@@ -104,21 +128,21 @@
 
                     <hr class="text-white">
 
-                    <?php if($rol == 1): ?>                        
                     <li class="">
-                        <a class="nav-link "href="<?=URL?>product/add"><i class="fa fa-user mr-1" ></i> Agregar producto</a>
-                    </li>
-                    <?php else: ?>
-                    <li class="">
-                        <a class="nav-link "href="#"><i class="fa fa-user mr-1" ></i> Mi Perfil</a>
+                        <a class="nav-link " href="<?=URL?>user/profile"><i class="fa fa-user mr-1" ></i> Mi Perfil</a>
                     </li>
                     <li class="">
                         <a class="nav-link" href="<?=URL?>user/cart"><i class="fa fa-shopping-cart " ></i> Mi carro  </a>
                     </li>
-                    <?php endif; ?>
+
                 </ul>
                 <?php else: ?>          
                 <div class="mt-3">
+                    <a class="btn btn-secondary text-white my-auto mt-3 w-100" href="<?=URL?>user/cart"  >
+                        <i class="fa fa-shopping-cart " aria-hidden="true"></i>
+                        Carro de compras
+                    </a>
+                    <hr>
                     <a class="btn  btn-danger text-white mt-3 w-100" href="<?=URL?>user/login"  >Iniciar sesión</a>
                     <a class="btn btn-secondary text-white my-auto mt-3 w-100" href="<?=URL?>user/signup"  >Registrarse</a>
                 </div>

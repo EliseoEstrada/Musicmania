@@ -40,7 +40,6 @@ class UserModel extends Model{
                 'username'  => $data['username'],
                 'email'     => $data['email'],
                 'password'  => $data['password'],
-                'rol'       => 0,
                 'image'     => null, 
                 'extension' => null
             );
@@ -73,7 +72,6 @@ class UserModel extends Model{
                     'username'   => $row['username'],
                     'email'      => $row['email'],
                     'password'   => $row['password'],
-                    'rol'        => $row['rol'],
                     'image'      => $row['image'],
                     'extension'  => $row['extension']
                 );

@@ -28,13 +28,28 @@ class ProductController extends Controller{
     }
 
     function byCategory(){
-        $products = $this->model->getAll();
-        $this->view->products = $products;
-        $this->render('product/index');
+        if(isset($_GET) && $_GET['category'] != null){
+            $category = $_GET['category'];
+            $products = $this->model->getByCategory($category);
+            $this->view->products = $products;
+            $this->view->title = $category;
+            $this->render('product/filter');
+        }
+    }
+
+    function search(){
+        if(isset($_POST['search'])){
+            $search = $_POST['search'];
+            $products = $this->model->getBySearch($search);
+            $this->view->products = $products;
+            $this->view->title = $search;
+            $this->render('product/filter');
+            
+        }
     }
 
     function details(){
-        if(isset($_GET) and $_GET != null){
+        if(isset($_GET) && $_GET != null){
             $id = $_GET['id'] ? $_GET['id'] : null;
 
             if($id != null){
@@ -45,7 +60,6 @@ class ProductController extends Controller{
                     $this->render('product/details'); 
                 }
 
-                
             }else{
                 $this->view->error();
             }
@@ -54,6 +68,46 @@ class ProductController extends Controller{
             $this->view->error();
         }
         
+    }
+
+    function addToCart(){
+        //unset($_SESSION['cart']);
+        if(isset($_POST['product_id'], $_POST['quantity'])){
+
+            $product_id = (int)$_POST['product_id'];
+            $quantity = (int)$_POST['quantity'];
+
+            if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+                if (array_key_exists($product_id, $_SESSION['cart'])) {
+                    // Product exists in cart so just update the quanity
+                    $_SESSION['cart'][$product_id] += $quantity;
+                } else {
+                    // Product is not in cart so add it
+                    $_SESSION['cart'][$product_id] = $quantity;
+                }
+            } else {
+                // There are no products in cart, this will add the first product to cart
+                $_SESSION['cart'] = array($product_id => $quantity);
+            }
+
+            $this->view->redirect('user/cart');
+
+        }
+    }
+
+    function getProductsInCart(){
+        $items = $this->model->getProductsInCart();
+        return $items;
+    }
+
+    function removeProductToCart(){
+        if(isset($_GET['product_id'])){
+            $product_id = (int)$_GET['product_id'];
+            unset($_SESSION['cart'][$product_id]);
+
+            $this->view->redirect('user/cart');
+        }
+
     }
 
     function add(){
@@ -100,46 +154,6 @@ class ProductController extends Controller{
         }
         
         $this->render('product/add');
-    }
-
-    function addToCart(){
-        //unset($_SESSION['cart']);
-        if(isset($_POST['product_id'], $_POST['quantity'])){
-
-            $product_id = (int)$_POST['product_id'];
-            $quantity = (int)$_POST['quantity'];
-
-            if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
-                if (array_key_exists($product_id, $_SESSION['cart'])) {
-                    // Product exists in cart so just update the quanity
-                    $_SESSION['cart'][$product_id] += $quantity;
-                } else {
-                    // Product is not in cart so add it
-                    $_SESSION['cart'][$product_id] = $quantity;
-                }
-            } else {
-                // There are no products in cart, this will add the first product to cart
-                $_SESSION['cart'] = array($product_id => $quantity);
-            }
-
-            $this->view->redirect('user/cart');
-
-        }
-    }
-
-    function getProductsInCart(){
-        $items = $this->model->getProductsInCart();
-        return $items;
-    }
-
-    function removeProductToCart(){
-        if(isset($_GET['product_id'])){
-            $product_id = (int)$_GET['product_id'];
-            unset($_SESSION['cart'][$product_id]);
-
-            $this->view->redirect('user/cart');
-        }
-
     }
 
 }

@@ -13,14 +13,15 @@ class App{
 
         //CONTROLADOR
         if(isset($_GET['controller'])){
-            //Sí existe el controlador haga:
+            //Sí existe el controlador
             $classController = $_GET['controller'].'Controller';
         }elseif(!isset($_GET['controller']) && !isset($_GET['action'])){
             //Sí no existe el controlador y la acción, debe cargar el controlador default
             // configurado en el .htaccess 
-            $classController = default_controller;
+            $classController = DEFAULT_CONTROLLER;
         }else{
-            // Sino existe el error, llame la función de errores
+
+            // Si no existe, llame la función de errores
             $this->show_error();
             exit();
         }
@@ -28,25 +29,34 @@ class App{
 
         //ACCION
         // comprobando que el controlador exista
-        //print_r($classController);
 
         if(isset($classController) && class_exists($classController)){
 
             //Creo un nuevo objeto de la clase controladora
             $controller = new $classController();
+
+            
             // Invocando los métodos automáticamente
-            if(isset($_GET['action']) && method_exists($controller, $_GET['action'])){
-                $action = $_GET['action'];
-                $controller->$action();
-            }elseif(!isset ($_GET['controller']) && !isset ($_GET['action'])){
+            if(isset($_GET['action'])){
+                if(method_exists($controller, $_GET['action'])){
+                    $action = $_GET['action'];
+                    $controller->$action();
+                }elseif(method_exists($controller, 'index')){
+                    $action = "index";
+                    $controller->$action();
+                }
+            }
+            elseif(!isset ($_GET['controller']) && !isset ($_GET['action'])){
             //Sí no existe el controlador y la acción, debe cargar el controlador default
             // configurado en el .htaccess 
-                $default_action = default_action;
+                $default_action = DEFAULT_ACTION;
                 $controller->$default_action();
-            }else{
+            }
+            else{
                 $this->show_error();
             }
         }else{    
+            
             $this->show_error();
             
         }

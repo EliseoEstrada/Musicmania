@@ -3,8 +3,8 @@
 define('ROOT', dirname(dirname(__FILE__)));
 
 define('URL', 'http://localhost/Musicmania/');
-define('default_controller', 'ProductController');
-define('default_action', 'getAll');
+define('DEFAULT_CONTROLLER', 'ProductController');
+define('DEFAULT_ACTION', 'index');
 
 define('lib_message', URL.'src/views/layout/alert.php');
 

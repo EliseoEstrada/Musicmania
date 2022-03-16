@@ -16,14 +16,18 @@ class UserController extends Controller{
         $this->view->redirect($vista);
     }
 
+    function profile(){
+        $this->view->render('user/profile');
+    }
+
     function signup(){
         
         if(isset($_POST['submit'])){
 
             $data = array(
-                'username'      => $_POST['username'], 
-                'email'         => $_POST['email'], 
-                'password'      => $_POST['password']
+                'username'  => $_POST['username'], 
+                'email'     => $_POST['email'], 
+                'password'  => $_POST['password']
             );
 
             $result = $this->model->insert($data);

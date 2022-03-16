@@ -1,12 +1,5 @@
 <?php 
 
-class Movie{
-
-    public $id;
-    public $title;
-    public $image;
-
-}
 
 class ProductModel extends Model{
 
@@ -63,6 +56,57 @@ class ProductModel extends Model{
 
         return $items;
     }
+
+    public function getByCategory($category){
+
+        $items = [];
+
+        try{
+            $connection = $this->db->connect();
+            $sql = 'CALL sp_get_products_by_category(:p_category)';
+            $query = $connection->prepare($sql);
+            $query->execute(array( 'p_category' => $category ));
+            
+            if($query->rowCount() > 0){
+                while($row = $query->fetch()){
+                    $item = $row;
+    
+                    array_push($items, $item);
+                }
+            }
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+
+        return $items;
+    }
+
+    public function getBySearch($search){
+
+        $items = [];
+
+        try{
+            $connection = $this->db->connect();
+            $sql = 'CALL sp_get_products_by_title(:p_title)';
+            $query = $connection->prepare($sql);
+            $query->execute(array( 'p_title' => $search ));
+            
+            if($query->rowCount() > 0){
+                while($row = $query->fetch()){
+                    $item = $row;
+    
+                    array_push($items, $item);
+                }
+            }
+
+        }catch(PDOException $e){
+            echo $e;
+        }
+
+        return $items;
+    }
+
 
     public function getOne($id){
 

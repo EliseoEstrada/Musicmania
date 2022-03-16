@@ -7,4 +7,3 @@ INSERT INTO Categories SET name = 'Oficina';
 INSERT INTO Categories SET name = 'Otros';
 
 
-INSERT INTO users SET username = 'admin', email = 'admin@hotmail.com', password = 'admin', rol = 1 ;

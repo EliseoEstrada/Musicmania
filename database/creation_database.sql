@@ -27,7 +27,6 @@ CREATE TABLE users(
     email VARCHAR(100) UNIQUE,
     password VARCHAR(50),
     address TEXT,
-    rol TINYINT,
     image VARCHAR(100),
     extension VARCHAR(20)
 );

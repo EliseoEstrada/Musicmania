@@ -4,12 +4,16 @@
 
 # sign_up
 DELIMITER $%
-CREATE PROCEDURE sp_signup ( IN p_username VARCHAR(50), IN p_email VARCHAR(100), IN p_password VARCHAR(50) )
+CREATE PROCEDURE sp_signup ( 
+    IN p_username VARCHAR(50), 
+    IN p_email VARCHAR(100), 
+    IN p_password VARCHAR(50) 
+)
 BEGIN
 
     INSERT INTO users 
-    (username, email, password, rol) 
-    VALUES (p_username, p_email, p_password, 0);
+    (username, email, password) 
+    VALUES (p_username, p_email, p_password);
 
 END $%
 DELIMITER ;
@@ -17,10 +21,13 @@ DELIMITER ;
 
 # _login
 DELIMITER $%
-CREATE PROCEDURE sp_login (IN p_user VARCHAR(100), IN p_password VARCHAR(50))
+CREATE PROCEDURE sp_login (
+    IN p_user VARCHAR(100), 
+    IN p_password VARCHAR(50)
+)
 BEGIN
 
-    SELECT id, username, email, password, rol, image, extension 
+    SELECT id, username, email, password, image, extension 
     FROM users
     WHERE (email = p_user OR username = p_user) AND password = p_password;
 
@@ -102,6 +109,32 @@ BEGIN
     INNER JOIN categories C
     ON C.id = P.category_id
     WHERE C.name = p_category;
+
+END $%
+DELIMITER ;
+
+# get_products_by_title
+DELIMITER $%
+CREATE PROCEDURE sp_get_products_by_title( 
+    IN p_title TEXT
+)
+BEGIN
+
+    SELECT 
+    P.id,
+    P.title, 
+    P.description, 
+    P.price, 
+    P.quantity, 
+    P.rating, 
+    P.image, 
+    P.extension, 
+    P.create_at, 
+    C.name 'category'
+    FROM products P
+    INNER JOIN categories C
+    ON C.id = P.category_id
+    WHERE P.title LIKE CONCAT('%',p_title,'%');
 
 END $%
 DELIMITER ;
