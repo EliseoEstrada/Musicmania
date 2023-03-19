@@ -1,0 +1,114 @@
+/*GLOBALS*/
+body{
+    background-color: rgb(63, 63, 63);
+    margin: auto;
+    /*font-family: "Anton";*/
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+:root{
+    --primary-color: #dc3545;
+}
+
+
+textarea{
+    resize: none;
+}
+
+.main{
+    min-height: 70vh;
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+
+
+/*------------------------NAVBAR*/
+.logo_nav{
+    width: 12em;
+    height: 3.8em;
+}
+
+.box_categories{
+    display:flex;
+    flex-direction: row;
+    margin-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    justify-content: space-around;
+}
+
+/*------------------------INDEX*/
+a.product_link, a.product_link:hover{
+    text-decoration:none;
+    color: black;
+}
+
+
+/*PROFILE*/
+
+.old_image_user{
+    width: 200px;
+    height: 200px;
+}
+
+/* 
+ * Cajar de calificacion de estrellas    
+ * ---------------------------------------------------------------------------
+*/
+.star-widget {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    width: 300px;
+}
+.star-widget input{
+    display: none;
+}
+.star-widget label{
+    font-size: 40px;
+    color:#444;
+    padding: 10px;
+    transition: all 0.2s ease;
+}
+.label-star:hover,
+.label-star:hover ~ label {
+  color: orange;
+}
+
+input[type="radio"]:checked ~ label {
+  color: orange;
+}
+
+
+/*Boostrap*/
+.row{
+    --bs-gutter-x: none;
+}
+
+.container-xxl{
+    padding: 0;
+}
+.container{
+    padding:0;
+}
+.container-fluid{
+    padding: 0;
+}
+@media screen and (min-width: 576px) { 
+    .container-fluid{
+        padding-left: 1rem;
+        padding-right: 1rem;  
+    }
+
+}
+
+.list-group-item.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.dropdown-item:active{
+    background-color: var(--primary-color);
+}
