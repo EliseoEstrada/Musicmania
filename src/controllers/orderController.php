@@ -63,7 +63,7 @@ class OrderController extends Controller{
             $this->view->redirect('product/index');
 
         }else{
-            echo 'error';
+            echo "<script>alert('Error en la compra')</script>";
         }
 
     }

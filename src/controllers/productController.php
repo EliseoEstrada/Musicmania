@@ -57,10 +57,28 @@ class ProductController extends Controller{
 
                 if($product != null){
 
+                    //Obtener si fuie comprado
                     $this->view->buyed = false;
                     if(isset($_SESSION['identity'])){
                         $this->loadAuxModel('order');
                         $this->view->buyed = $this->auxModel->getProductOrderById($_SESSION['identity']['id'],intval($idProduct));
+                    }
+
+                    // Obtener Reseñas
+                    $this->loadAuxModel('review');
+                    $this->view->reviews = $this->auxModel->getAll($idProduct);
+                    $this->view->thereReviews = false;
+                    if(sizeof($this->view->reviews) > 0){
+                        $this->view->thereReviews = true;
+                        $calificacion = 0;
+                        $promedio = 0.0;
+                        $comentarios = 0;
+                        foreach($this->view->reviews as &$review){
+                            $calificacion += intval($review['punctuation']);
+                            $comentarios++;
+                        }
+                        $promedio = $calificacion/$comentarios;
+                        $this->view->average = $promedio;
                     }
 
                     $this->view->product = $product;

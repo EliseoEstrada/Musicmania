@@ -296,3 +296,47 @@ BEGIN
  
 END $%
 DELIMITER ;
+
+
+# ========================== add_review ========================== 
+DELIMITER $%
+CREATE PROCEDURE sp_add_review (
+    IN p_user_id INT,
+    IN p_product_id INT,
+    IN p_comment TEXT,
+    IN p_punctuation INT
+)
+BEGIN
+
+    INSERT INTO reviews
+    SET user_id   = p_user_id,
+    product_id    = p_product_id,
+    comment       = p_comment,
+    punctuation   = p_punctuation,
+    create_at     = NOW();
+
+END $%
+DELIMITER ;
+
+
+# ========================== get_all_reviews ========================== 
+DELIMITER $%
+CREATE PROCEDURE sp_get_all_reviews (
+    IN p_product_id INT
+)
+BEGIN
+
+    SELECT 
+        R.id,
+        R.comment,
+        R.create_at,
+        R.punctuation,
+        U.username,
+        U.image
+    FROM reviews R
+    INNER JOIN users U
+    ON R.user_id = U.id
+    WHERE R.product_id = p_product_id;
+
+END $%
+DELIMITER ;

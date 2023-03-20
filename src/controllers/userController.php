@@ -140,7 +140,11 @@ class UserController extends Controller{
                     //Borrar antigua imagen de servidor
                     $old_image_route = ROOT .'/'. PATH_USER_IMAGE . $_SESSION['identity']['image'];
                     if(file_exists($old_image_route)){
-                        unlink($old_image_route);
+                        try{
+                            unlink($old_image_route);
+                        }catch(Exception $e){
+                            
+                        }
                     }
 
                     //actualizar usuario

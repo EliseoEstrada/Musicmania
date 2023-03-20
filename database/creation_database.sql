@@ -47,3 +47,14 @@ CREATE TABLE order_items(
     CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(id),
     CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id)
 );
+
+CREATE TABLE reviews(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    product_id INT,
+    comment TEXT,
+    create_at DATE,
+    punctuation int,
+    CONSTRAINT fk_user_review FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_product_review FOREIGN KEY (product_id) REFERENCES products(id)
+);
