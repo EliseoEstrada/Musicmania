@@ -297,6 +297,44 @@ BEGIN
 END $%
 DELIMITER ;
 
+# ========================== calculate_average ========================== 
+DELIMITER $%
+CREATE FUNCTION f_calculate_average(p_product_id INT) 
+RETURNS FLOAT
+BEGIN
+	DECLARE result FLOAT;
+    DECLARE vTotalPunctuation INT;
+    DECLARE vTotalComments INT;
+    DECLARE vPunctuation INT;
+    DECLARE n INT;
+    DECLARE i INT;
+
+    SET result = 0;
+    SET vTotalPunctuation = 0;
+    SET vTotalComments = 0;
+    SET i = 0; 
+
+    #Obtener total de reseñas
+    SET n = (SELECT COUNT(*) FROM reviews WHERE product_id = p_product_id);
+
+    WHILE i < n DO 
+        #Obtener calificacion de reseña
+        SET vPunctuation = (SELECT (punctuation) FROM reviews WHERE product_id = p_product_id LIMIT i ,1  );
+        
+        #Aumentar puntuacion
+        SET vTotalPunctuation = vTotalPunctuation + vPunctuation;
+
+        #Aumentar contador de comentarios
+        SET vTotalComments= vTotalComments +1;
+
+    	SET i = i + 1;
+	END WHILE;
+
+    SET result = vTotalPunctuation / vTotalComments;
+    
+	RETURN result;
+END $%
+DELIMITER ;
 
 # ========================== add_review ========================== 
 DELIMITER $%
@@ -345,44 +383,5 @@ BEGIN
     ON R.user_id = U.id
     WHERE R.product_id = p_product_id;
 
-END $%
-DELIMITER ;
-
-# ========================== calculate_average ========================== 
-DELIMITER $%
-CREATE FUNCTION f_calculate_average(p_product_id INT) 
-RETURNS FLOAT
-BEGIN
-	DECLARE result FLOAT;
-    DECLARE vTotalPunctuation INT;
-    DECLARE vTotalComments INT;
-    DECLARE vPunctuation INT;
-    DECLARE n INT;
-    DECLARE i INT;
-
-    SET result = 0;
-    SET vTotalPunctuation = 0;
-    SET vTotalComments = 0;
-    SET i = 0; 
-
-    #Obtener total de reseñas
-    SET n = (SELECT COUNT(*) FROM reviews WHERE product_id = p_product_id);
-
-    WHILE i < n DO 
-        #Obtener calificacion de reseña
-        SET vPunctuation = (SELECT (punctuation) FROM reviews WHERE product_id = p_product_id LIMIT i ,1  );
-        
-        #Aumentar puntuacion
-        SET vTotalPunctuation = vTotalPunctuation + vPunctuation;
-
-        #Aumentar contador de comentarios
-        SET vTotalComments= vTotalComments +1;
-
-    	SET i = i + 1;
-	END WHILE;
-
-    SET result = vTotalPunctuation / vTotalComments;
-    
-	RETURN result;
 END $%
 DELIMITER ;

@@ -17,7 +17,7 @@ CREATE TABLE products(
     image VARCHAR(100),
     extension VARCHAR(20),
     create_at DATETIME,
-    category_id INT(11)
+    category_id INT(11),
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 

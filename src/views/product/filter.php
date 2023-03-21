@@ -22,10 +22,18 @@
                     <span  class="card-text fw-bold fs-5">$<?=$price?> MXN</span>
                     <p class="card-text "> 
                         <?php if($rating != 0): ?>
-                        <span class="text-warning">★★★★★</span> 
-                        <span>(3)</span>
+                            <?php 
+                            $rating = number_format($rating, 1, '.', '');
+                            $auxRating = round($rating, 0, PHP_ROUND_HALF_DOWN);
+                            for($i = 1; $i <= $auxRating; $i++):
+                            ?>
+                                <span class="text-warning">★</span> 
+                            <?php 
+                            endfor;
+                            ?>
+                            <span><?=$rating;?></span>
                         <?php else: ?>
-                        <span class="text-danger">Aun no ha sido calificado</span> 
+                            <span class="text-danger">Aun no ha sido calificado</span> 
                         <?php endif; ?>
                     </p>
                 </div>
