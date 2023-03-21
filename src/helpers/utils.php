@@ -12,6 +12,12 @@ class Utils{
         return $categories;
     }
 
+    public static function getReviews($idProduct){
+        $reviewController = new ReviewController();
+        $reviews = $reviewController->getAll($idProduct);
+        return $reviews;
+    }
+
     public static function deleteSession($name){
         if(isset($_SESSION[$name])){
             $_SESSION[$name] = null;

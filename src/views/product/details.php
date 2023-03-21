@@ -12,23 +12,32 @@
                 <p class="mb-0"><strong>Categoria</strong></p>
                 <p class="card-text"><?=$this->product['category']?></p>
 
-                <?php $price = number_format($this->product['price'], 2, '.', ''); ?>
+                <?php 
+                $price = number_format($this->product['price'], 2, '.', ''); 
+                ?>
+
                 <p class="mb-3 card-title text-danger text-center fs-4"><b>$ <?=$price?> MXN</b></p>
 
                 <form action="<?=URL?>product/addToCart" class="pb-1" method="POST">
 
-                    <?php $quantity = $this->product['quantity']; ?>
+                    <?php 
+                    $quantity = $this->product['quantity']; 
+                    ?>
 
                     <p class="mb-2"><b>Unidades disponibles</b> <?=$quantity?></p>
                     <div class="input-group " >    
                         <b class="my-auto me-2">Cantidad: </b>
                         <select class="form-control form-control-sm" name="quantity">
 
-                            <?php for($i = 1; $i <= $quantity; $i++): ?>
+                            <?php 
+                            for($i = 1; $i <= $quantity; $i++): 
+                            ?>
 
                                 <option clas="text-center" value="<?=$i?>"><?=$i?></option>
 
-                            <?php endfor; ?>
+                            <?php 
+                            endfor; 
+                            ?>
 
                         </select>
                         <input type="hidden" name="product_id" value="<?=$this->product['id']?>">
@@ -48,7 +57,10 @@
         <div class="col-12 p-0 ">
             <div class="card p-md-3">
 
-                <?php if($this->buyed): ?>
+                <?php 
+                if($this->buyed): 
+                ?>
+
                 <div class="p-2">
                     <h5 class="pl-3 pt-2">¿Que te parecio el producto?</h5>
                     <form method="POST" action="<?=URL?>review/add"  >
@@ -72,23 +84,36 @@
                         </div>
                     </form>
                 </div>
-                <?php endif; ?>
+                <?php 
+                endif; 
+                ?>
 
-                <?php if($this->thereReviews): ?>
+                <?php 
+                if($this->product['rating'] != '0'): 
+                ?>
+                    
 
                 <!--PROMEDIO DE CALIFICACION-->
                 <h5 class="pl-3 pt-2">Promedio de calificación</h5>
                 <div class="row pb-3">
                     <div class="col">
-                        <?php $average = number_format($this->average, 1, '.', ''); ?>
+                        <?php 
+                        $rating = number_format($this->product['rating'], 1, '.', ''); 
+                        ?>
                         <p class="h1 my-auto ">
                             <span class="orange-color m-0 h1 ">
-                            <?php for($i = 1; $i <= $average; $i++ ):?>
-                            ★
-                            <?php endfor;?>
+
+                            <?php 
+                            for($i = 1; $i <= $rating; $i++ ):
+                            ?>
+                                ★
+                            <?php 
+                            endfor;
+                            ?>
+
                             </span>
                             <span class="">
-                                (<?=$average?>)
+                                (<?=$rating?>)
                             </span>
                             
                         </p>
@@ -98,16 +123,18 @@
                 <!--COMENTARIOS-->
                 <h5 class="pl-3 pt-2">Opiniones acerca de producto</h5>
 
-                <?php foreach($this->reviews as &$review):?>
+                <?php 
+                $reviews = Utils::getReviews($this->product['id']); 
+                foreach($reviews as &$review):
+                
+                    $image = $review['image'];
+                    if($image != null){
+                        $image = URL . PATH_USER_IMAGE . $image;
+                    }else{
+                        $image = PATH_RESOURCES_IMAGES . 'user_layout.png';
+                    }                            
+                ?>
 
-                    <?php 
-                        $image = $review['image'];
-                        if($image != null){
-                            $image = URL . PATH_USER_IMAGE . $image;
-                        }else{
-                            $image = PATH_RESOURCES_IMAGES . 'user_layout.png';
-                        }                            
-                    ?>
                 <div class="row mt-2">
                     <div class="col-2 text-center">
                         <img src="<?=$image?>" width="50" height="50" class="rounded-circle ">

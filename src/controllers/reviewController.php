@@ -36,5 +36,12 @@ class ReviewController extends Controller{
         }
     }
 
+    function getAll($idProduct){
+
+        $reviews = $this->model->getAll($idProduct);
+        return $reviews;
+    
+    }
+
 
 }

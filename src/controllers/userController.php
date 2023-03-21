@@ -39,7 +39,8 @@ class UserController extends Controller{
             $result = $this->model->insert($data);
 
             if(!is_string($result)){
-                $_SESSION['identity'] = $result;
+                $identity = $this->loginOn($data['username'], $data['password']);
+                $_SESSION['identity'] = $identity;
                 $this->redirect('product/index');
             }else{
                 $this->view->addMessage('error', $result);
@@ -50,6 +51,15 @@ class UserController extends Controller{
         }else{
             $this->render('auth/signup');
         }
+    }
+
+    function loginOn($username, $password){
+        $data = array(
+            'user'       => $username, 
+            'password'   => $password
+        );
+        $result = $this->model->login($data);
+        return $result;
     }
 
     function login(){
